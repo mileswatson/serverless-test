@@ -54,11 +54,12 @@ package:
 
 functions:
   hello:
-    handler: CsharpHandlers::AwsDotnetCsharp.Handler::Hello
+    name: ${self:provider.stage}-hello
+    handler: CsharpHandlers::LambdaFunctions.Handler::Hello
 
     # you can add packaging information here
     package:
-      artifact: lambda-functions/bin/Release/netcoreapp3.1/hello.zip
+      artifact: LambdaFunctions/bin/Release/netcoreapp3.1/hello.zip
     #  exclude:
     #    - exclude-me.js
     #    - exclude-me-dir/**
