@@ -21,6 +21,9 @@ provider:
   # allocate 128 MB to each function
   memorySize: 128
 
+  # removes deprecation warning
+  lambdaHashingVersion: 20201221
+
 
 package:
   # we are using a compiled language, so we have to package the binary
