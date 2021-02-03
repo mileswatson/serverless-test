@@ -9,16 +9,16 @@ Used to demo some features of the serverless framework.
 First, install [Serverless](https://www.serverless.com/framework/docs/getting-started/).
 
 For Windows users:
-- If you have chocolatey installed, run `choco install serverless`
-- otherwise, install [Node.js](https://nodejs.org/en/) and then run `npm install -g serverless`.
+- If you have Chocolatey installed, run `choco install serverless`
+- Otherwise, install [Node.js](https://nodejs.org/en/) and then run `npm install -g serverless`.
 
 Check that serverless is installed by running the `serverless` command in a CLI. 
 
 ### Creating an AWS Account
 
-To run the project, we will use AWS.
+To deploy the project, we will use AWS.
 
-First, create an account with [AWS](https://aws.amazon.com/) (if you don't have on already).
+First, create an account with [AWS](https://aws.amazon.com/) (if you don't have one already).
 
 ### Adding a user
 
@@ -81,6 +81,8 @@ Deployment may take a minute or two. Be patient!
 ## Verify
 
 You can check that you have deployed successfully by searching for "CloudFormation" in the AWS console. You should be able to see a stack titled `backend-dev` (or `backend-prod`). Click it, and click Resources to see a list of all the items that were deployed.
+
+> Note: ensure that your region in the top right is set to `eu-west-2` (the default deployment region).
 
 ## Remove
 
