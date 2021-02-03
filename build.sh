@@ -7,6 +7,6 @@ then
   apt -qq -y install zip
 fi
 
-dotnet restore
-dotnet tool install -g Amazon.Lambda.Tools --framework netcoreapp3.1
-dotnet lambda package --configuration Release --framework netcoreapp3.1 --output-package bin/Release/netcoreapp3.1/hello.zip
+dotnet restore lambda-functions
+dotnet tool install lambda-functions -g Amazon.Lambda.Tools --framework netcoreapp3.1
+dotnet lambda package -pl lambda-functions --configuration Release --framework netcoreapp3.1 --output-package lambda-functions/bin/Release/netcoreapp3.1/hello.zip

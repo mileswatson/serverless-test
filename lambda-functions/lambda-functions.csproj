@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AssemblyName>CsharpHandlers</AssemblyName>
-    <PackageId>aws-csharp</PackageId>
+    <PackageId>lambda-functions</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

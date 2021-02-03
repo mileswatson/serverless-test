@@ -26,8 +26,8 @@ provider:
   lambdaHashingVersion: 20201221
 
 # you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-2 # london
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -58,7 +58,7 @@ functions:
 
     # you can add packaging information here
     package:
-      artifact: bin/Release/netcoreapp3.1/hello.zip
+      artifact: lambda-functions/bin/Release/netcoreapp3.1/hello.zip
     #  exclude:
     #    - exclude-me.js
     #    - exclude-me-dir/**
