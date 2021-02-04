@@ -9,21 +9,25 @@ namespace LambdaFunctions
     {
         public APIGatewayHttpApiV2ProxyResponse Hello(APIGatewayHttpApiV2ProxyRequest request)
         {
-            try 
-            {
-                var number = int.Parse(request.RawQueryString);
+            if (request.Cookies is null || request.Cookies.Length == 0) {
+                var newCookie = "sample cookie";
                 return new APIGatewayHttpApiV2ProxyResponse {
                     StatusCode = 200,
-                    Body = $"{number}+1={number+1}"
+                    Body = $"Could not find any cookies, so [{newCookie}] was added.",
+                    Cookies = new string[] {
+                        newCookie
+                    },
+                    
                 };
             }
-            catch 
-            {
-                return new APIGatewayHttpApiV2ProxyResponse {
-                    StatusCode = 400,
-                    Body = $"Format was incorrect! Enter a valid integer in the query string."
-                };
-            }
+
+            var cookie = request.Cookies[0];
+            return new APIGatewayHttpApiV2ProxyResponse {
+                StatusCode = 200,
+                Body = $"Found [{cookie}]",
+                Cookies = request.Cookies
+            };
+
         }
     }
 }
