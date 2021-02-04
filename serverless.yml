@@ -5,6 +5,21 @@ service: backend
 # locks service to only deploy with Serverless V2
 frameworkVersion: '2'
 
+
+plugins:
+  # allows for HTTP API throttling
+  - serverless-apigateway-route-settings
+custom:
+  # default settings for all API paths
+  routeSettings:
+    # max 10 requests a second
+    rateLimit: 10
+    # max 5 requests at a time
+    burstLimit: 5
+    # enabling this costs money
+    detailedMetricsEnabled: false
+
+
 # specifies the cloud provider
 provider:
 
@@ -27,7 +42,9 @@ provider:
   lambdaHashingVersion: 20201221
 
   httpApi:
+    # e.g. dev-backend
     name: ${self:provider.stage}-${self:service}
+    # supports better request / response datatypes
     payload: '2.0'
 
 
@@ -46,9 +63,9 @@ functions:
     name: ${self:provider.stage}-hello
     # <assembly_name>::<namespace>.<class>::<function>
     handler: LambdaFunctions::LambdaFunctions.Handler::Hello
+
     events:
+      # create an api that calls the function
       - httpApi:
-          method: GET
           path: /test
-
-
+          method: GET
