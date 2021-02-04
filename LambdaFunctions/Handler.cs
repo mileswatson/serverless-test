@@ -1,31 +1,29 @@
+using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
+using Amazon.Lambda.Serialization.SystemTextJson;
 
-[assembly:LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+[assembly:LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
 namespace LambdaFunctions
 {
     public class Handler
     {
-       public Response Hello(Request request)
-       {
-           return new Response("Go Serverless v1.0! Your function executed successfully!", request);
-       }
-    }
-
-    public class Response
-    {
-        public string Message {get; set;}
-        public Request Request {get; set;}
-
-        public Response(string message, Request request){
-            Message = message;
-            Request = request;
+        public APIGatewayHttpApiV2ProxyResponse Hello(APIGatewayHttpApiV2ProxyRequest request)
+        {
+            try 
+            {
+                var number = int.Parse(request.RawQueryString);
+                return new APIGatewayHttpApiV2ProxyResponse {
+                    StatusCode = 200,
+                    Body = $"{number}+1={number+1}"
+                };
+            }
+            catch 
+            {
+                return new APIGatewayHttpApiV2ProxyResponse {
+                    StatusCode = 400,
+                    Body = $"Format was incorrect! Enter a valid integer in the query string."
+                };
+            }
         }
-    }
-
-    public class Request
-    {
-        public string Key1 {get; set;}
-        public string Key2 {get; set;}
-        public string Key3 {get; set;}
     }
 }

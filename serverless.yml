@@ -20,9 +20,15 @@ provider:
   runtime: dotnetcore3.1
   # allocate 128 MB to each function
   memorySize: 128
+  # set a timeout of 1 second
+  timeout: 1
 
   # removes deprecation warning
   lambdaHashingVersion: 20201221
+
+  httpApi:
+    name: ${self:provider.stage}-${self:service}
+    payload: '2.0'
 
 
 package:
@@ -39,4 +45,10 @@ functions:
     # prefix the name with the stage, to help distinguish between stages.
     name: ${self:provider.stage}-hello
     # <assembly_name>::<namespace>.<class>::<function>
-    handler: CsharpHandlers::LambdaFunctions.Handler::Hello
+    handler: LambdaFunctions::LambdaFunctions.Handler::Hello
+    events:
+      - httpApi:
+          method: GET
+          path: /test
+
+
