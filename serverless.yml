@@ -1,6 +1,6 @@
 
 # name of the service
-service: backend
+service: csboost-backend
 
 # locks service to only deploy with Serverless V2
 frameworkVersion: '2'
@@ -43,7 +43,7 @@ provider:
 
   httpApi:
     # e.g. dev-backend
-    name: ${self:provider.stage}-${self:service}
+    name: ${self:service}-${self:provider.stage}
     # supports better request / response datatypes
     payload: '2.0'
 
@@ -51,21 +51,36 @@ provider:
 package:
   # we are using a compiled language, so we have to package the binary
   # with all function deployments
-  artifact: LambdaFunctions/bin/Release/netcoreapp3.1/hello.zip
+  artifact: Lambda/bin/Release/netcoreapp3.1/Lambda.zip
 
 
 functions:
 
   # basic lambda function
-  hello:
-
+  root:
     # prefix the name with the stage, to help distinguish between stages.
-    name: ${self:provider.stage}-hello
+    name: ${self:provider.stage}-root
     # <assembly_name>::<namespace>.<class>::<function>
-    handler: LambdaFunctions::LambdaFunctions.Handler::Hello
+    handler: CSBoostLambda::Functions.Root::Handler
 
     events:
       # create an api that calls the function
       - httpApi:
-          path: /test
+          path: /
+          method: GET
+
+  hello:
+    name: ${self:provider.stage}-hello
+    handler: CSBoostLambda::Functions.Hello::Handler
+    events:
+      - httpApi:
+          path: /hello
+          method: GET
+
+  cookie:
+    name: ${self:provider.stage}-cookie
+    handler: CSBoostLambda::Functions.Cookie::Handler
+    events:
+      - httpApi:
+          path: /cookie
           method: GET
