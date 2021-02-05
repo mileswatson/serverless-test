@@ -27,7 +27,7 @@ namespace Functions
                 Body = $"Found [{cookie}]",
                 Cookies = request.Cookies
             };
-
         }
+        
     }
 }

@@ -5,7 +5,8 @@ using System.Linq;
 using System.Reflection;
 
 [assembly:LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
-namespace Functions {
+namespace Functions
+{
     public class Root
     {
         private string types = Assembly.GetExecutingAssembly().GetTypes()
@@ -21,6 +22,6 @@ namespace Functions {
                 Body = $"Welcome to the CSBoost API. Available functions: \n\t{types}"
             };
         }
-    }
 
+    }
 }

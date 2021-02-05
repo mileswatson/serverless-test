@@ -4,7 +4,7 @@ namespace Functions
 {
     public class Hello
     {
-
+        
         public APIGatewayHttpApiV2ProxyResponse Handler(APIGatewayHttpApiV2ProxyRequest request)
         {
             var query = request.QueryStringParameters;
@@ -25,7 +25,7 @@ namespace Functions
                 StatusCode = 200,
                 Body = $"Hello, {name}!"
             };
-
         }
+
     }
 }
