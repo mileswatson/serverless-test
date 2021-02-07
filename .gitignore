@@ -1,12 +1,22 @@
+# See https://jasonstitt.com/gitignore-whitelisting-patterns for reference.
+
+# Ignore everything...
 *
-!.gitignore
+# ... but allow directories to be searched
+!*/
 
-!Lambda/*.cs
+# Allow C# files under any folder(s), except /bin and /obj
 !Lambda/*.csproj
+!Lambda/**/*.cs
+Lambda/bin
+Lambda/obj
 
+# Allow build files
 !build.cmd
 !build.sh
 
+# Allow the README
 !README.md
 
+# Allow ONLY the serverless config file
 !serverless.yml
