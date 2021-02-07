@@ -61,7 +61,7 @@ functions:
     # prefix the name with the stage, to help distinguish between stages.
     name: ${self:provider.stage}-root
     # <assembly_name>::<namespace>.<class>::<function>
-    handler: CSBoostLambda::Functions.Root::Handler
+    handler: Lambda::Functions.Handler::Handle
 
     events:
       # create an api that calls the function
@@ -71,7 +71,7 @@ functions:
 
   hello:
     name: ${self:provider.stage}-hello
-    handler: CSBoostLambda::Functions.Hello::Handler
+    handler: Lambda::Functions.Hello.Handler::Handle
     events:
       - httpApi:
           path: /hello
@@ -79,7 +79,7 @@ functions:
 
   cookie:
     name: ${self:provider.stage}-cookie
-    handler: CSBoostLambda::Functions.Cookie::Handler
+    handler: Lambda::Functions.Cookie.Handler::Handle
     events:
       - httpApi:
           path: /cookie

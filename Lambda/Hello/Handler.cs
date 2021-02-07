@@ -1,31 +1,32 @@
-using Amazon.Lambda.APIGatewayEvents;
+using System.Threading.Tasks;
 
-namespace Functions
+using Request = Amazon.Lambda.APIGatewayEvents.APIGatewayHttpApiV2ProxyRequest;
+using Response = Amazon.Lambda.APIGatewayEvents.APIGatewayHttpApiV2ProxyResponse;
+
+namespace Functions.Hello
 {
-    public class Hello
+    public class Handler : HttpHandler
     {
-        
-        public APIGatewayHttpApiV2ProxyResponse Handler(APIGatewayHttpApiV2ProxyRequest request)
+        public override Task<Response> Get(Request request)
         {
             var query = request.QueryStringParameters;
 
             if (query is null || !query.ContainsKey("name") || query["name"] == "")
             {
-                return new APIGatewayHttpApiV2ProxyResponse
+                return Task.FromResult(new Response
                 {
                     StatusCode = 400,
                     Body = $"Sorry, I don't think we've met. Please include a name parameter in the url query!"
-                };
+                });
             }
 
             var name = query["name"];
 
-            return new APIGatewayHttpApiV2ProxyResponse
+            return Task.FromResult(new Response
             {
                 StatusCode = 200,
                 Body = $"Hello, {name}!"
-            };
+            });
         }
-
     }
 }
