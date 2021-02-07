@@ -7,26 +7,26 @@ namespace Functions.Hello
 {
     public class Handler : HttpHandler
     {
-        public override Task<Response> Get(Request request)
+        public override Response Get(Request request)
         {
             var query = request.QueryStringParameters;
 
             if (query is null || !query.ContainsKey("name") || query["name"] == "")
             {
-                return Task.FromResult(new Response
+                return new Response
                 {
                     StatusCode = 400,
                     Body = $"Sorry, I don't think we've met. Please include a name parameter in the url query!"
-                });
+                };
             }
 
             var name = query["name"];
 
-            return Task.FromResult(new Response
+            return new Response
             {
                 StatusCode = 200,
                 Body = $"Hello, {name}!"
-            });
+            };
         }
     }
 }

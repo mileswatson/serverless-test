@@ -10,13 +10,13 @@ namespace Functions
 {
     public class Handler : HttpHandler
     {
-        public override Task<Response> Get(Request request)
+        public override Response Get(Request request)
         {
-            return Task.FromResult(new Response
+            return new Response
             {
                 StatusCode = 200,
                 Body = $"Welcome to the CSBoost API. Available functions: Hello, Cookie."
-            });
+            };
         }
     }
 }
