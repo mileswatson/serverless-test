@@ -35,8 +35,8 @@ provider:
 
   # .NET 5 requires a container image, sticking to 3.1 for now
   runtime: dotnetcore3.1
-  # allocate 128 MB to each function
-  memorySize: 128
+  # allocated memory (MB) to each function
+  memorySize: 1024
   # set a timeout of 1 second
   timeout: 1
 
@@ -91,7 +91,7 @@ functions:
     name: ${self:provider.stage}-secret
     handler: Lambda::Functions.Secret.Handler::Handle
     environment:
-      SECRET_VARIABLE: ${self:custom.secrets.SECRET_VARIABLE}
+      PASETO_KEY: ${self:custom.secrets.PASETO_KEY}
     events:
       - httpApi:
           path: /secret

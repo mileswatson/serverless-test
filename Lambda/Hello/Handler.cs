@@ -13,7 +13,7 @@ namespace Functions.Hello
             {
                 return new Response
                 {
-                    StatusCode = 400,
+                    StatusCode = (int) Code.BAD_REQUEST,
                     Body = $"Sorry, I don't think we've met. Please include a name parameter in the url query!"
                 };
             }

@@ -11,7 +11,7 @@ namespace Functions.Cookie
             {
                 var newCookie = "sample cookie";
                 return new Response {
-                    StatusCode = 200,
+                    StatusCode = (int) Code.OK,
                     Body = $"Could not find any cookies, so [{newCookie}] was added.",
                     Cookies = new string[] {
                         newCookie
@@ -23,7 +23,7 @@ namespace Functions.Cookie
             var cookie = request.Cookies[0];
             return new Response
             {
-                StatusCode = 200,
+                StatusCode = (int) Code.OK,
                 Body = $"Found [{cookie}]",
                 Cookies = request.Cookies
             };
