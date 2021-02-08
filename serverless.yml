@@ -18,6 +18,8 @@ custom:
     burstLimit: 5
     # enabling this costs money
     detailedMetricsEnabled: false
+  # for storing secrets
+  secrets: ${file(./secrets.yml)}
 
 
 # specifies the cloud provider
@@ -83,4 +85,14 @@ functions:
     events:
       - httpApi:
           path: /cookie
+          method: GET
+
+  secret:
+    name: ${self:provider.stage}-secret
+    handler: Lambda::Functions.Secret.Handler::Handle
+    environment:
+      SECRET_VARIABLE: ${self:custom.secrets.SECRET_VARIABLE}
+    events:
+      - httpApi:
+          path: /secret
           method: GET

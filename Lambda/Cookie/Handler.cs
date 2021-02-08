@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using Request = Amazon.Lambda.APIGatewayEvents.APIGatewayHttpApiV2ProxyRequest;
 using Response = Amazon.Lambda.APIGatewayEvents.APIGatewayHttpApiV2ProxyResponse;
 
@@ -7,7 +5,7 @@ namespace Functions.Cookie
 {
     public class Handler : HttpHandler
     {
-        public override Response Get(Request request)
+        protected override Response Get(Request request)
         {
             if (request.Cookies is null || request.Cookies.Length == 0)
             {

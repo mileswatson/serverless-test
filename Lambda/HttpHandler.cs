@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 
 using Request = Amazon.Lambda.APIGatewayEvents.APIGatewayHttpApiV2ProxyRequest;
 using Response = Amazon.Lambda.APIGatewayEvents.APIGatewayHttpApiV2ProxyResponse;
@@ -17,11 +16,11 @@ namespace Functions
             };
         }
 
-        public virtual Response Get(Request request) => Any(request);
+        protected virtual Response Get(Request request) => Any(request);
 
-        public virtual Response Post(Request request) => Any(request);
+        protected virtual Response Post(Request request) => Any(request);
 
-        public virtual Response Any(Request request)
+        protected virtual Response Any(Request request)
         {
             throw new NotImplementedException();
         }

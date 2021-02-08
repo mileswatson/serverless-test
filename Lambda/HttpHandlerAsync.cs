@@ -17,11 +17,11 @@ namespace Functions
             };
         }
 
-        public virtual Task<Response> Get(Request request) => Any(request);
+        protected virtual Task<Response> Get(Request request) => Any(request);
 
-        public virtual Task<Response> Post(Request request) => Any(request);
+        protected virtual Task<Response> Post(Request request) => Any(request);
 
-        public virtual Task<Response> Any(Request request)
+        protected virtual Task<Response> Any(Request request)
         {
             throw new NotImplementedException();
         }
