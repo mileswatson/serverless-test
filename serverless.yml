@@ -5,23 +5,6 @@ service: csboost-backend
 # locks service to only deploy with Serverless V2
 frameworkVersion: '2'
 
-
-plugins:
-  # allows for HTTP API throttling
-  - serverless-apigateway-route-settings
-custom:
-  # default settings for all API paths
-  routeSettings:
-    # max 10 requests a second
-    rateLimit: 10
-    # max 5 requests at a time
-    burstLimit: 5
-    # enabling this costs money
-    detailedMetricsEnabled: false
-  # for storing secrets
-  secrets: ${file(./secrets.yml)}
-
-
 # specifies the cloud provider
 provider:
 
@@ -38,7 +21,7 @@ provider:
   # allocated memory (MB) to each function
   memorySize: 1024
   # set a timeout of 1 second
-  timeout: 1
+  timeout: 3
 
   # removes deprecation warning
   lambdaHashingVersion: 20201221
@@ -55,6 +38,47 @@ package:
   # with all function deployments
   artifact: Lambda/bin/Release/netcoreapp3.1/Lambda.zip
 
+
+plugins:
+  # allows for HTTP API throttling
+  - serverless-apigateway-route-settings
+  # function specific roles
+  - serverless-iam-roles-per-function
+
+
+custom:
+
+  # default settings for all API paths
+  routeSettings:
+    # max 10 requests a second
+    rateLimit: 10
+    # max 5 requests at a time
+    burstLimit: 5
+    # enabling this costs money
+    detailedMetricsEnabled: false
+  
+  # for storing secrets
+  secrets: ${file(./secrets.yml)}
+
+  # table names
+  dynamodb:
+    demoTable: ${self:service}-demo-${self:provider.stage}
+
+
+resources:
+  Resources:
+    demoTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:custom.dynamodb.demoTable}
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
 
 functions:
 
@@ -96,3 +120,23 @@ functions:
       - httpApi:
           path: /secret
           method: GET
+
+  dynamo:
+    name: ${self:provider.stage}-dynamo
+    handler: Lambda::Functions.Dynamo.Handler::Handle
+    environment:
+      DEMO_TABLE: ${self:custom.dynamodb.demoTable}
+    events:
+      - httpApi:
+          path: /dynamo
+          method: GET
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DescribeTable
+          - dynamodb:Query
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+        Resource:
+          - arn:aws:dynamodb:${self:provider.region}:${self:custom.secrets.ACCOUNT_ID}:table/${self:custom.dynamodb.demoTable}
+          - arn:aws:dynamodb:${self:provider.region}:${self:custom.secrets.ACCOUNT_ID}:table/${self:custom.dynamodb.demoTable}/index/pk
