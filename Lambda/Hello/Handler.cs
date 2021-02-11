@@ -5,6 +5,8 @@ namespace Functions.Hello
 {
     public class Handler : HttpHandler
     {
+        private int x = 0;
+
         protected override Response Get(Request request)
         {
             var query = request.QueryStringParameters;
@@ -19,11 +21,10 @@ namespace Functions.Hello
             }
 
             var name = query["name"];
-
             return new Response
             {
                 StatusCode = 200,
-                Body = $"Hello, {name}!"
+                Body = $"Hello, {name}! {x++}"
             };
         }
     }
